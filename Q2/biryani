@@ -1,0 +1,24 @@
+Q2:Automated Biryani Serving:
+=============================
+
+INPUT: no_of_chefs,no_of_servingtables,no_of_students
+OUTPUT : Appropriate printf statements wherever required
+
+-> Students arrice randomly.and wait for the slot to be allocated
+-> Chefs cook the biryani.Each chef is a thread(All are created at once at the start).Randomly ​w seconds ​(random between 2-5) to prepare ​r
+   vessels ​(random between 1-10) ​ ​of biryani at any particular time. Each vessel
+   has a capacity to feed ​p students ​(random between 25-50) are generated. After the chefs completes cooking biryani_ready function is
+   called.unless all the vessels prepared by the chefs are no emptied the chefs does cook Again . As a part of implementation we maintain a 
+   struct array for all the chefs and vessels variable gets subtractes when the container cooked by the chef is put into the serving 
+   container.once the vessels becomes zero the funtion returns and the chefs starts preparing the biryani again.the process goes on till all 
+   the students are served.
+
+->For each serving Table a thread is created.We maintain a struct array for the serving tables.Once the serving table is loaded it becomes 
+  ready to serve.and in the stuct presentstorage capacity variable capacity is stored(depends on th chef). When the Serving table is being 
+  filled mutex is used so that a single conatainer is not loded by multiplr chefs. Flags are changed accordingly.Only when the serving table 
+  is loaded by any of the chef it becomes ready to serve.slots are generated randomly.If the student is waiting he is given the slot.The 
+  student come in to slot and waits for second briyani and served and the he leaves.The student can randomly go to any of the slot and at
+  each serving table even is one student is waiting the biryani is served if that doesn't happen it may lead to deadlock say suppose 10 
+  serving tables and 10 students are presents if the students is randomly allocated to each of the serving tableif the table doesn't serve 
+  till all the slots are filled then it results to deadlock.So to avoid this we don't wait for all the slots to be filled.and the serving 
+  table return when the all the serving portions by it are completed.

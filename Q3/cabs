@@ -1,0 +1,89 @@
+Q3:OBER CAB SERVICES:
+=====================
+
+INPUT : no_of_cabs,no_of_drivers,no_of_paymentservers
+OUTPUT : printf statements at different stages of code 
+
+-> riders arrive randomly. A random number is generated and sleep() function is then used
+-> For each rider three threads are created - rider_wait; rider_in_cab ; rider after cab
+     and a struct array namely Rider is declared with the following parameters is maintained
+     struct rider_data{
+    int state;
+    int waittime;
+    int cabtype;
+    int ridetime;
+    int waitflag;
+    int gotcab;
+    int assignedcab;
+    int readyforpayment;  // 0-> not ready 1-> ready for the payment 2->server is alloted
+    int assignedserver;
+   }Rider[1000];
+-> For the number of cabs available struct array namely Cab is declared with the following parameters;
+     struct cab_data{
+        int state;
+        int presentridetime; // 0-> wait state    1-> onprimerride    2-> onpoolone   3->onpoolfull  
+       }Cab[1000];
+-> For each Rider in rider_wait thread Rider[arg].cabtype,Rider[arg].waittime,Rider[arg].ridetime are randomly generated,Based on the cab 
+   type is will search for the suitable cabs for that particular rider till his waitime exceeds or he finds a cab then we enter to
+   rider_in_cab thread.
+     type 1-> premier
+     type 2-> pool
+     type1 rider will seek for empty cab(state==0)
+     typr2 rider will seek for cab in state=2(poolone) if that's not availale it will search for state=0
+-> For each rider in rider_in_cab thread 
+     Sleep(rider wait time)
+     Then change the state of the cab
+            if in state==1 then change cab state=0;
+            if in state==2 then change cab state=0;
+            if in state==3 then change cab state=2;
+     Enter into rider_after_cab thread
+->For each rider in rider_after_cab
+      if the any of the payment server is free sleep for 2 seconds then print the payment done statement.
+
+Example 1:
+----------
+Sample ouput to show that some riders exited when theier waitime got exited:
+For this output required constraints:
+   All the drivers arrive at the start
+   waitime between 3-5 seconds
+   ride time betweeen 1-3 seconds
+   and sice only one cab is available onlt when that is freed the other can enter if it's not poolone.
+sample output:
+Enter the number of cabs : 1
+Enter the number of riders : 6
+Enter the number of payment servers : 3
+Rider 1 came
+rider1  ct1 wt3 rt2
+Rider 2 came
+rider2  ct2 wt4 rt1
+Rider 1 has been assigned 1 cab
+out of the loop
+Rider 3 came
+Rider 4 came
+rider4  ct1 wt4 rt3
+rider3  ct2 wt5 rt2
+Rider 5 came
+Rider 6 came
+rider5  ct1 wt4 rt3
+rider6  ct1 wt3 rt1
+Rider 1 ride has been completed
+Rider 1 cab 1 status after the ride is 0
+Rider 6 has been assigned 1 cab
+out of the loop
+Rider 3 waitime has exceeded
+Rider 6 ride has been completed
+Rider 6 cab 1 status after the ride is 0
+Rider 4 has been assigned 1 cab
+out of the loop
+Rider 1 payment is completed
+Rider 6 payment is completed
+Rider 5 waitime has exceeded
+Rider 4 ride has been completed
+Rider 4 cab 1 status after the ride is 0
+Rider 2 has been assigned 1 cab
+out of the loop
+Rider 2 ride has been completed
+Rider 2 cab 1 status after the ride is 0
+Rider 4 payment is completed
+Rider 2 payment is completed
+Simulation Done

@@ -1,0 +1,37 @@
+Q1: Concurrent Quicksort
+========================
+
+INPUT : N: number of elements of the array. and the array elements
+
+OUTPUT : sorted array of elemets
+
+Different steps in quick sort:
+  1. Choose a pivot (a random element)
+  2. Partition the array around the pivot
+
+Steps to be performed :
+
+-When the number of elements in the array for a process is less than 5, perform an Insertion sort to sort the elements of that array.
+- Otherwise, partition the array around the pivot such that all the elements with a value less than the pivot are positioned before it, while all the elements with a value greater than the pivot are positioned after. In case of equality, they can go on either side of the partition.
+- Recurse for the low and high subarray.
+
+
+Concurrent quick sort using processes:
+
+   Partition the array using the partition() function to get higher and lower subarrays. Create a child process (using fork) that would sort the higher subarray by calling the same function again. The parent process would create another child process (using fork) that would run parallely to the first function made and sort the lower subarray by calling the same function again. The parent process waits patiently till both the children are done with their sorting process.
+
+Concurrent quick sort using threads :
+   
+  Recursion part is done using threads.partition the array using the partition() function to get higher and lower subarrays. Create two threads using the pthread_create function, passing the array, the left and right of the two subarrays, and join them using the pthread_join function.
+
+
+Normal quicksort using functions:
+
+   Recursion part is done using functions. partition the array using the partition() function to get higher and lower subarrays. Then recursively call the same function to sort the upper and lower parts.
+
+
+Comaprision of these three different types of quicksorts:
+
+   For comparing the performances, we use the get_time() function that gets the current time of the running process. Calculate the time before and after running the sorting for the same array, and divide them to get a ratio.There is print statement which outputs the ratios in the code
+   
+
